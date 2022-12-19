@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap');
 
+* {
+    font-family: 'Manrope', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Manrope', sans-serif;
+}
+
+p {
+    margin: 0;
 }
 
 .root {
@@ -75,6 +83,7 @@ body {
     gap: 16px;
     height: min-content;
     padding: 0px;
+    margin-top: -80px;
     width: min-content;
 }
 
@@ -87,7 +96,7 @@ body {
     border-top-width: 1px;
     place-content: flex-start;
     align-items: flex-start;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.15);
     border-radius: 16px;
     display: flex;
     flex: 0 0 auto;
@@ -108,7 +117,7 @@ body {
     letter-spacing: 0px;
     line-height: 1.6em;
     text-align: start;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 1);
     text-decoration: none;
     text-transform: none;
 }
@@ -170,10 +179,10 @@ textarea {
 }
 
 .generate-button {
-    place-content: flex-start;
-    align-items: flex-start;
-    background-color: rgb(255, 79, 18);
+    align-items: center;
+    background-color: rgb(255, 75, 75);
     border-radius: 100px;
+    border: 0;
     display: flex;
     flex: 0 0 auto;
     flex-flow: column nowrap;
@@ -181,20 +190,16 @@ textarea {
     height: min-content;
     overflow: hidden;
     padding: 16px 24px;
+    margin: 0;
     position: relative;
     text-decoration: none;
-    width: min-content;
+    width: 100%;
     will-change: transform;
     cursor: pointer;
-}
-
-.generate {
-    outline: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    transform: none;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-family: 'Manrope', sans-serif;
 }
 
 .generate p {
@@ -216,56 +221,6 @@ textarea {
     position: fixed;
     width: auto;
     z-index: 1;
-}
-
-.badge-container a {
-    border-bottom-width: 1px;
-    border-color: rgba(255, 255, 255, 0.1);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-style: solid;
-    border-top-width: 1px;
-    background-color: rgb(0, 0, 0);
-    border-radius: 54.3478% / 238.095%;
-    filter: grayscale(1);
-    transform: none;
-    transform-origin: 50% 50% 0px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1em;
-    color: #fff;
-    padding: 12px;
-    text-decoration: none;
-}
-
-.badge {
-    display: flex;
-    align-items: center;
-}
-
-.badge img {
-    width: 21px;
-    height: 17px;
-    image-rendering: pixelated;
-    flex-shrink: 0;
-    fill: black;
-    color: black;
-    transform: none;
-    transform-origin: 50% 50% 0px;
-    padding-right: 5px;
-}
-
-.badge p {
-    margin: 0;
-}
-
-.grow {
-    transition: all .2s ease-in-out;
-}
-
-.grow:hover {
-    transform: scale(1.1);
 }
 
 .output {
@@ -321,9 +276,9 @@ textarea {
 }
 
 .output-content p {
-    text-align: center;
+    text-align: left;
     white-space: pre-line;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.80);
 }
 
 @media (min-width: 810px) and (max-width: 1199px) {

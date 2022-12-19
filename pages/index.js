@@ -8,9 +8,11 @@ const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [hasGenerated, setHasGenerated] = useState(false)
 
   const callGenerateEndpoint = async () => {
     setIsGenerating(true);
+    setHasGenerated(false);
 
     // console.log("Calling OpenAI...")
     const response = await fetch('/api/generate', {
@@ -27,6 +29,7 @@ const Home = () => {
 
     setApiOutput(`${output.text}`);
     setIsGenerating(false);
+    setHasGenerated(true);
   }
 
   const onUserChangedText = (event) => {
@@ -42,34 +45,41 @@ const Home = () => {
       <div className="container">
         <div className="header">
           <div className="header-title">
-            <h1>Code Snippet Generator</h1>
+            <h1>nextext</h1>
           </div>
           <div className="header-subtitle">
-            <h2>Input a coding prompt, and we'll generate a Python script for you</h2>
+            <h2>tell me ur past texts on a dating app, and i'll tell you what to say next</h2>
+            <p><b>you:</b></p>
+            <p>Me: hey</p>
+            <p>Her: ur dog likes me more than u</p>
+            <br />
+            <p><b>nextext:</b> so i have to step up my game to win you and my dog over</p>
           </div>
+          <h2>👇👇👇</h2>
         </div>
         <div className="prompt-container">
           <textarea
-            placeholder="start typing here"
+            placeholder="Me: hey..."
             className="prompt-box"
             value={userInput}
             onChange={onUserChangedText}
           />
+          {hasGenerated ? <p style={{
+            color: "#00ff00"
+          }}>
+            Scroll down to see your next possible texts 👀
+          </p> : ""}
+          
           <div className="prompt-buttons">
-            <a 
-              className={isGenerating ? 'generate-button loading' : 'generate-button'} 
-              onClick={callGenerateEndpoint}
-            >
-              <div className="generate">
-                {isGenerating ? <span className="loader"></span> : <p>Generate</p>}
-              </div>
-            </a>
+            <button className={isGenerating ? 'generate-button loading' : 'generate-button'}  onClick={callGenerateEndpoint}>
+            {isGenerating ? <span className="loader"></span> : "Generate"}
+            </button>
           </div>
           {apiOutput && (
             <div className="output">
               <div className="output-header-container">
                 <div className="output-header">
-                  <h3>Output</h3>
+                  <h3>suggestions</h3>
                 </div>
               </div>
               <div className="output-content">
@@ -78,18 +88,6 @@ const Home = () => {
             </div>
           )}
         </div>
-      </div>
-      <div className="badge-container grow">
-        <a
-          href="https://buildspace.so/builds/ai-writer"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <div className="badge">
-            <Image src={buildspaceLogo} alt="buildspace logo" />
-            <p>build with buildspace</p>
-          </div>
-        </a>
       </div>
     </div>
   );
