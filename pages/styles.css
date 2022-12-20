@@ -343,7 +343,8 @@ textarea {
     }
 
     .prompt-container {
-        max-width: 350px;
+        max-width: 96%;
+        margin: 0 2%;
         width: 100%;
     }
 
