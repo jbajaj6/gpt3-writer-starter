@@ -48,8 +48,8 @@ const Home = () => {
             <h1>nextext</h1>
           </div>
           <div className="header-subtitle">
-            <h2>tell me ur past texts on a dating app, and i'll tell you what to say next</h2>
-            <p><b>you:</b></p>
+            <h2>tell me ur past texts on a dating app, and i'll tell u what to say next</h2>
+            <p><b>example:</b></p>
             <p>Me: hey</p>
             <p>Her: ur dog likes me more than u</p>
             <br />
