@@ -72,7 +72,7 @@ const Home = () => {
           
           <div className="prompt-buttons">
             <button className={isGenerating ? 'generate-button loading' : 'generate-button'}  onClick={callGenerateEndpoint}>
-            {isGenerating ? <span className="loader"></span> : "Generate"}
+            {isGenerating ? <span className="loader"></span> : "generate"}
             </button>
           </div>
           {apiOutput && (

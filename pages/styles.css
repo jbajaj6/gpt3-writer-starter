@@ -66,6 +66,12 @@ p {
     margin: 0;
 }
 
+.header-subtitle {
+    width: 96%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
 .header-subtitle h2 {
     font-size: 20px;
     font-style: normal;
@@ -180,7 +186,7 @@ textarea {
 
 .generate-button {
     align-items: center;
-    background-color: rgb(255, 75, 75);
+    background-color: rgb(255, 27, 103);
     border-radius: 100px;
     border: 0;
     display: flex;
@@ -200,6 +206,7 @@ textarea {
     color: white;
     font-size: 16px;
     font-family: 'Manrope', sans-serif;
+    font-weight: bold;
 }
 
 .generate p {
