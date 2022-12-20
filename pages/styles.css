@@ -313,6 +313,7 @@ textarea {
     .container {
         max-width: 400px;
         width: 100%;
+        background-color: aqua;
     }
 
     .header-title h1 {
@@ -329,11 +330,13 @@ textarea {
 
     .prompt-buttons {
         justify-content: center;
+        background-color: blue;
     }
 
     .prompt-container {
         max-width: 350px;
         width: 100%;
+        background-color: gray;
     }
 }
 
