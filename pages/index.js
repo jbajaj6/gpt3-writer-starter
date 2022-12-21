@@ -50,8 +50,8 @@ const Home = () => {
           <div className="header-subtitle">
             <h2>tell me ur past texts on a dating app, and i'll tell u what to say next</h2>
             <p><b>example:</b></p>
-            <p>Me: hey</p>
-            <p>Her: ur dog likes me more than u</p>
+            <p>me: hey</p>
+            <p>her: ur dog likes me more than u</p>
             <br />
             <p><b>nextext:</b> so i have to step up my game to win you and my dog over</p>
           </div>
@@ -67,7 +67,7 @@ const Home = () => {
           {hasGenerated ? <p style={{
             color: "#00ff00"
           }}>
-            Scroll down to see your next possible texts 👀
+            scroll down to see your next possible texts 👀
           </p> : ""}
           
           <div className="prompt-buttons">
