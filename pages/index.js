@@ -1,7 +1,13 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import buildspaceLogo from '../assets/buildspace-logo.png';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { createWorker } from 'tesseract.js';
+import { FilePond, registerPlugin } from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
 const Home = () => {
 
@@ -9,6 +15,38 @@ const Home = () => {
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [hasGenerated, setHasGenerated] = useState(false)
+  const [ocrState, setOcrState] = useState({
+    isProcessing: false,
+    ocrText: '',
+    pctg: '0.00'
+  });
+  const [files, setFiles] = useState([]);
+
+  const worker = useRef();
+
+  const updateProgressAndLog = (m) => {
+    var MAX_PARCENTAGE = 1;
+    var DECIMAL_COUNT = 2;
+
+    if (m.status === "recognizing text") {
+      var pctg = (m.progress / MAX_PARCENTAGE) * 100
+      setOcrState({
+        ...ocrState,
+        pctg: pctg.toFixed(DECIMAL_COUNT)
+      })
+
+    }
+  }
+
+  const _createWorker = async (worker, createWorker, updateProgressAndLog) => {
+    worker.current = await createWorker({
+      logger: m => updateProgressAndLog(m),
+    });
+  }
+
+  useEffect(() => {
+    _createWorker(worker, createWorker, updateProgressAndLog);
+  }, [])
 
   const callGenerateEndpoint = async () => {
     setIsGenerating(true);
@@ -37,6 +75,28 @@ const Home = () => {
     setUserInput(event.target.value);
   }
 
+  const doOCR = async (file) => {
+    setOcrState({
+      isProcessing: true,
+      ocrText: '',
+      pctg: '0.00'
+    })
+    // Loading tesseract.js functions
+    await worker.current.load();
+    // Loading language as 'English'
+    await worker.current.loadLanguage('eng');
+    await worker.current.initialize('eng');
+    // Sending the File Object into the Recognize function to
+    // parse the data
+    const { data: { text } } = await worker.current.recognize(file.file);
+    setOcrState({
+      isProcessing: false,
+      ocrText: text,
+      pctg: '100.00'
+    })
+    setUserInput(text);
+  };
+
   return (
     <div className="root">
       <Head>
@@ -57,6 +117,24 @@ const Home = () => {
           </div>
           <h2>👇👇👇</h2>
         </div>
+        <FilePond
+          files={files}
+          onupdatefiles={setFiles}
+          allowMultiple={true}
+          maxFiles={3}
+          name="files"
+          labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          onaddfile={(err, file) => {
+            doOCR(file);
+          }}
+          onremovefile={(err, fiile) => {
+            setOcrState({
+              isProcessing: false,
+              ocrText: '',
+              pctg: '0.00',
+            })
+          }}
+        />
         <div className="prompt-container">
           <textarea
             placeholder="Me: hey..."
@@ -69,10 +147,10 @@ const Home = () => {
           }}>
             scroll down to see your next possible texts 👀
           </p> : ""}
-          
+
           <div className="prompt-buttons">
-            <button className={isGenerating ? 'generate-button loading' : 'generate-button'}  onClick={callGenerateEndpoint}>
-            {isGenerating ? <span className="loader"></span> : "generate"}
+            <button className={isGenerating ? 'generate-button loading' : 'generate-button'} onClick={callGenerateEndpoint}>
+              {isGenerating ? <span className="loader"></span> : "generate"}
             </button>
           </div>
           {apiOutput && (
