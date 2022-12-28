@@ -10,6 +10,21 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
 const Home = () => {
+  const toggleButtonList = ['Flirty', 'Sarcastic', 'Witty', 'Affectionate', "Empathetic"];
+
+  // Use the useState hook to create an array of state variables and set functions for the toggle buttons
+  const [buttonStateArray, setButtonStateArray] = useState(
+    toggleButtonList.map(() => false)
+  );
+
+  // Create a function to toggle the state of a button
+  const toggleButton = (buttonNumber) => {
+    setButtonStateArray((prevState) => {
+      const newState = [...prevState];
+      newState[buttonNumber - 1] = !newState[buttonNumber - 1];
+      return newState;
+    });
+  }
 
   const [userInput, setUserInput] = useState('');
   const [apiOutput, setApiOutput] = useState('')
@@ -52,13 +67,21 @@ const Home = () => {
     setIsGenerating(true);
     setHasGenerated(false);
 
+    const adjectives = []
+
+    for (let i = 0; i < toggleButtonList.length; i++) {
+      if (buttonStateArray[i]) {
+        adjectives.push(toggleButtonList[i]);
+      }
+    }
+
     // console.log("Calling OpenAI...")
     const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userInput }),
+      body: JSON.stringify({ userInput, adjectives }),
     });
 
     const data = await response.json();
@@ -136,6 +159,21 @@ const Home = () => {
           }}
         />
         <div className="prompt-container">
+          {toggleButtonList.map((button, index) => (
+            <button
+              className='select'
+              style={{
+                borderRadius: '20px',
+                outlineOffset: "-2px",
+                outline: buttonStateArray[index] ? "2px solid rgb(255, 27, 103)" : 'none',
+                color: buttonStateArray[index] ? "rgb(255, 27, 103)" : 'black'
+              }}
+              key={index}
+              onClick={() => toggleButton(index + 1)}
+            >
+              {button}
+            </button>
+          ))}
           <textarea
             placeholder="Me: hey..."
             className="prompt-box"

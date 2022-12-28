@@ -6,16 +6,22 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-const basePromptPrefix = "I've been messaging someone and this has been the conversation so far:\n";
-const basePromptSuffix = "\nCould you give me a couple ideas of what to say next and why? Do you have any tips about this situation?";
+const basePromptPrefix = "I've been messaging someone and this is the conversation so far:\n";
+const basePromptSuffix = "\nCould you give me some ideas of what to say next and why? Do you have any tips about this situation?";
+let basePromptMid = "";
 const generateAction = async (req, res) => {
   // Run first prompt
-  console.log(`API: \n${basePromptPrefix}${req.body.userInput}${basePromptSuffix}`)
+  const adjs = req.body.adjectives;
+  if (adjs.length != 0) {
+    basePromptMid = "\nI want to be: " + adjs.join(" ");
+  }
+
+  // console.log(`API: \n${basePromptPrefix}${req.body.userInput}${basePromptMid}${basePromptSuffix}`)
 
   const baseCompletion = await openai.createCompletion({
     model: 'text-davinci-003',
-    prompt: `${basePromptPrefix}${req.body.userInput}${basePromptSuffix}`,
-    temperature: 0.7,
+    prompt: `${basePromptPrefix}${req.body.userInput}${basePromptMid}${basePromptSuffix}`,
+    temperature: 0.9,
     max_tokens: 300,
   });
   
