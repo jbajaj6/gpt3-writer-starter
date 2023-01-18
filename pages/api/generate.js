@@ -7,7 +7,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const basePromptPrefix = "I've been messaging someone and this is the conversation so far:\n";
-const basePromptSuffix = "\nCould you give me some ideas of what to say next and why? Do you have any tips about this situation?";
+const basePromptSuffix = "\nCould you give me some ideas of how to respond and why? Do you have any tips about this situation?";
 let basePromptMid = "";
 const generateAction = async (req, res) => {
   // Run first prompt

@@ -117,7 +117,8 @@ const Home = () => {
       ocrText: text,
       pctg: '100.00'
     })
-    setUserInput(text);
+    let str = text.substring(text.indexOf("\n") + 1)
+    setUserInput(str.substring(str.indexOf("\n") + 1));
   };
 
   return (
