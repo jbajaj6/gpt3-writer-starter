@@ -184,7 +184,7 @@ const Home = () => {
           {hasGenerated ? <p style={{
             color: "#00ff00"
           }}>
-            scroll down to see your next possible texts 👀
+            scroll down to see your possible next texts 👀
           </p> : ""}
 
           <div className="prompt-buttons">
